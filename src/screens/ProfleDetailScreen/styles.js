@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     photo: {
       height: moderateScale(100),
       width: moderateScale(100),
-      backgroundColor: 'grey',
+      borderWidth:1,
       alignSelf: 'center',
       borderRadius: moderateScale(20),
   

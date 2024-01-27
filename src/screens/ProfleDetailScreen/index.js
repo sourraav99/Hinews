@@ -9,16 +9,23 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Image,
+  Platform,
+  Alert,
+  ImageBackground,
 } from 'react-native';
 import React, { useRef, useState } from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import GenderScreen from '../GenderSelectScreen';
 import HeaderComp from '../../Components/HeaderComp';
 import { moderateScale, moderateVerticalScale, scale, verticalScale } from 'react-native-size-matters';
+import ImagePicker from 'react-native-image-crop-picker';
 import CustomeButton from '../../Components/CustomeButton';
 import styles from './styles';
+import { androidCameraPermission } from '../../../permission';
 
+//const [image, setImage] = useState('https://media.istockphoto.com/id/1327592506/vector/default-avatar-photo-placeholder-icon-grey-profile-picture-business-man.jpg?s=612x612&w=0&k=20&c=BpR0FVaEa5F24GIw7K8nMWiiGmbb8qmhfkpXcp1dhQg=')
 const ProfileScreen = ({ navigation }) => {
+  const [image, setImage] = useState('https://www.istockphoto.com/photos/profile-image')
   const transY = useRef(new Animated.Value(0));
   const tranY = useRef(new Animated.Value(0));
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -97,6 +104,52 @@ const ProfileScreen = ({ navigation }) => {
   const handleChangeText1 = (value) => {
     setText1(value)
   }
+
+  const onSelectingImage = async () => {
+    const permissionStatus = await androidCameraPermission();
+    if (
+      permissionStatus || Platform.OS == 'ios') {
+      Alert.alert("Profile Picture",
+        " choose an option",
+        [
+          { text: 'Camera', onPress: onCamera },
+          { text: 'Gallery', onPress: onGallery },
+          { text: 'Cancel', onPress: () => { } }
+        ]
+      )
+    }
+    // ImagePicker.openPicker({
+    //   width: 300,
+    //   height: 400,
+    //   cropping: true
+    // }).then(image => {
+    //   console.log(image);
+    // });
+  }
+
+  const onCamera = () => {
+    // Alert.alert("im camera")
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+    });
+  };
+
+  const onGallery = () => {
+    // Alert.alert("im gallery")
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true
+    }).then(image => {
+      console.log(image);
+      setImage(image.path)
+    });
+  }
+
   return (
     <TouchableWithoutFeedback onPress={handelKeyboardOnDismiss}>
       <SafeAreaView style={styles.SafeAreaMain}>
@@ -111,7 +164,10 @@ const ProfileScreen = ({ navigation }) => {
             <Text style={styles.profileDetailTextStyle}>
               Profile details
             </Text>
-            <TouchableOpacity style={styles.photo}></TouchableOpacity>
+            <TouchableOpacity onPress={onSelectingImage} style={styles.photo}>
+              <ImageBackground source={{uri:image}}
+                style={{ height: moderateScale(100), width: moderateScale(100) }} imageStyle={{ borderRadius: 15 }}></ImageBackground>
+            </TouchableOpacity>
           </View>
           <View style={styles.container2}>
             <View style={[styles.InputView,]}>
