@@ -23,7 +23,6 @@ import CustomeButton from '../../Components/CustomeButton';
 import styles from './styles';
 import { androidCameraPermission } from '../../../permission';
 
-//const [image, setImage] = useState('https://media.istockphoto.com/id/1327592506/vector/default-avatar-photo-placeholder-icon-grey-profile-picture-business-man.jpg?s=612x612&w=0&k=20&c=BpR0FVaEa5F24GIw7K8nMWiiGmbb8qmhfkpXcp1dhQg=')
 const ProfileScreen = ({ navigation }) => {
   const [image, setImage] = useState('https://www.istockphoto.com/photos/profile-image')
   const transY = useRef(new Animated.Value(0));
@@ -166,7 +165,7 @@ const ProfileScreen = ({ navigation }) => {
             </Text>
             <TouchableOpacity onPress={onSelectingImage} style={styles.photo}>
               <ImageBackground source={{uri:image}}
-                style={{ height: moderateScale(100), width: moderateScale(100) }} imageStyle={{ borderRadius: 15 }}></ImageBackground>
+                style={{ height: moderateScale(100), width: moderateScale(100), }} imageStyle={{ borderRadius: 15 }}></ImageBackground>
             </TouchableOpacity>
           </View>
           <View style={styles.container2}>

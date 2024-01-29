@@ -35,30 +35,34 @@ const Carousel = () => {
       id: '1',
       titile: 'Get Platinum Subscription',
       subTitle: 'level up every action you take on the app',
-      color:'red'
+      color:'red',
+      btnText:"Get Platinum ",
     },
     {
       id: '2',
       titile: 'Get gold Subscription',
       subTitle: 'See who Likes you & more',
-      color:'green'
+      color:'green',
+      btnText:"Get Gold ",
     },
     {
       id: '3',
       titile: 'Get plus Subscription',
-      subTitle: 'Get unlimited likes amd more!',
-      color:'yellow'
+      subTitle: 'Get unlimited likes and more!',
+      color:'yellow',
+      btnText:"Get Plus",
     },
   ]
   const renderItem = ({ item, index }) => {
     return (
       <View style={{
-        height: height * 0.2,
+        height: height * 0.10,
         backgroundColor: '#F3F3F3',
         width: width,
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        // marginTop: height * 0.01
+        marginTop: height * 0.025,
+        // backgroundColor:'red'
       }}>
         <Text style={{color:item.color, fontSize: scale * 22, fontWeight: '500' }}> {item.titile} </Text>
         <Text style={{ fontSize: scale * 15 }} > {item.subTitle} </Text>
@@ -132,6 +136,7 @@ const Carousel = () => {
           renderDotIndicator()
         }
       </View>
+      
     </View>
   )
 }
