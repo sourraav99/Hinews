@@ -13,6 +13,8 @@ import {
     NotifiEnable,
     BottomTab,
 } from "../screens";
+import EditProfileScreen from '../screens/EditProfileScreen';
+import ShowProfileDetail from '../screens/ShowProfileDetail';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +31,8 @@ export default function AuthStack(){
         <Stack.Screen name="EnableContact" component={EnableContact} />
         <Stack.Screen name="NotifiEnable" component={NotifiEnable} />
         <Stack.Screen name="BottomTab" component={BottomTab} />
+        <Stack.Screen name='EditProfile' component={EditProfileScreen}/>
+        <Stack.Screen name='ShowProfileDetail' component={ShowProfileDetail}/>
       </Stack.Navigator>
     )
 }
