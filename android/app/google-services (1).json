@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "754379840363",
+    "project_id": "hinews-4818a",
+    "storage_bucket": "hinews-4818a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754379840363:android:ba7a48cc22b3e84b5f4a2e",
+        "android_client_info": {
+          "package_name": "com.hinews"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1yWnSTQ6p-gF9xETds0NFRwO94Fw-5V8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
