@@ -10,10 +10,9 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import colour from '../../styles/colour';
-import HeaderComp from '../../Components/HeaderComp';
-import SelfProfile from '../SelfProfile';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import EditProfileScreen from '../EditProfileScreen';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -26,21 +25,25 @@ const ShowProfileDetail = ({navigation}) => {
       content: require('../../pictures/sourabh.jpeg'),
       type: 'image',
       finish: 0,
+      key: 1,
     },
     {
       content: require('../../pictures/anadearmas.jpeg'),
       type: 'image',
       finish: 0,
+      key: 2,
     },
     {
       content: require('../../pictures/modiji.jpeg'),
       type: 'image',
       finish: 0,
+      key: 3,
     },
     {
       content: require('../../pictures/anadearmas.jpeg'),
       type: 'image',
       finish: 0,
+      key: 4,
     },
     {
       content: require('../../pictures/modiji.jpeg'),
@@ -148,75 +151,20 @@ const ShowProfileDetail = ({navigation}) => {
           </View>
           <View
             style={{
-              height: height * 0.08,
               backgroundColor: colour.white,
               width: width,
               marginTop: 5,
+              borderRadius: 10,
             }}>
-            <Text style={{fontSize: 40}}>hiiiii</Text>
-          </View>
-          <View
-            style={{
-              height: height * 0.08,
-              backgroundColor: colour.white,
-              width: width,
-              marginTop: 5,
-            }}>
-            <Text style={{fontSize: 40}}>hiiiii</Text>
-          </View>
-          <View
-            style={{
-              height: height * 0.08,
-              backgroundColor: colour.white,
-              width: width,
-              marginTop: 5,
-            }}>
-            <Text style={{fontSize: 40}}>hiiiii</Text>
-          </View>
-          <View
-            style={{
-              height: height * 0.08,
-              backgroundColor: colour.white,
-              width: width,
-              marginTop: 5,
-            }}>
-            <Text style={{fontSize: 40}}>hiiiii</Text>
-          </View>
-          <View
-            style={{
-              height: height * 0.08,
-              backgroundColor: colour.white,
-              width: width,
-              marginTop: 5,
-            }}>
-            <Text style={{fontSize: 40}}>hiiiii</Text>
-          </View>
-          <View
-            style={{
-              height: height * 0.08,
-              backgroundColor: colour.white,
-              width: width,
-              marginTop: 5,
-            }}>
-            <Text style={{fontSize: 40}}>hiiiii</Text>
-          </View>
-          <View
-            style={{
-              height: height * 0.08,
-              backgroundColor: colour.white,
-              width: width,
-              marginTop: 5,
-            }}>
-            <Text style={{fontSize: 40}}>hiiiii</Text>
-          </View>
-          <View
-            style={{
-              height: height * 0.08,
-              backgroundColor: colour.white,
-              width: width,
-              marginTop: 5,
-            }}>
-            <Text style={{fontSize: 40}}>hiiiii</Text>
+            <View style={{flexDirection:'row',width:'95%',alignSelf:'center',alignItems:'center'}}>
+            <Fontisto name="quote-a-right" color='grey' size={13} />
+              <Text style={{fontSize: font * 15,color:'grey',fontWeight:'700'}}>About me</Text>
+            </View>
+            <Text style={{width: '92%', alignSelf: 'center',color:colour.black,fontSize:font*15}}>
+              "Passionate explorer 🌍 | Creative soul 🎨 | Fitness enthusiast 💪
+              | Love meaningful conversations and a good laugh 😄 | Seeking
+              genuine connections and shared adventures! 🚀"
+            </Text>
           </View>
         </ScrollView>
         <TouchableOpacity
@@ -231,7 +179,7 @@ const ShowProfileDetail = ({navigation}) => {
             justifyContent: 'center',
             borderRadius: 100,
           }}
-          onPress={()=>navigation.navigate('EditProfile')}>
+          onPress={() => navigation.navigate('EditProfile')}>
           <MaterialCommunityIcons name="lead-pencil" color="white" size={35} />
         </TouchableOpacity>
       </View>
