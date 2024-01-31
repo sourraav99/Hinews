@@ -8,17 +8,18 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import colour from '../../styles/colour';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-
+import firestore from '@react-native-firebase/firestore';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 const font = Dimensions.get('window').fontScale;
 
 const ShowProfileDetail = ({navigation}) => {
+  const [myData, setMyData] = useState(null);
   const [current, setCurrent] = useState(0);
   const [content, setContent] = useState([
     {
@@ -56,6 +57,23 @@ const ShowProfileDetail = ({navigation}) => {
       finish: 0,
     },
   ]);
+
+  useEffect(() => {
+    getDataBase();
+  }, []);
+
+  const getDataBase = async () => {
+    try {
+      const data = await firestore()
+        .collection('test')
+        .doc('rQaX0i5XpZFXYCCNdF9E')
+        .get();
+      setMyData(data.data());
+      console.log(data.data());
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <SafeAreaView style={{backgroundColor: colour.backGroudColour, flex: 1}}>
@@ -156,15 +174,70 @@ const ShowProfileDetail = ({navigation}) => {
               marginTop: 5,
               borderRadius: 10,
             }}>
-            <View style={{flexDirection:'row',width:'95%',alignSelf:'center',alignItems:'center'}}>
-            <Fontisto name="quote-a-right" color='grey' size={13} />
-              <Text style={{fontSize: font * 15,color:'grey',fontWeight:'700'}}>About me</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                width: '95%',
+                alignSelf: 'center',
+                alignItems: 'center',
+              }}>
+              <Fontisto name="quote-a-right" color="grey" size={13} />
+              <Text
+                style={{fontSize: font * 15, color: 'grey', fontWeight: '700'}}>
+                About me
+              </Text>
             </View>
-            <Text style={{width: '92%', alignSelf: 'center',color:colour.black,fontSize:font*15}}>
+            <Text
+              style={{
+                width: '92%',
+                alignSelf: 'center',
+                color: colour.black,
+                fontSize: font * 15,
+              }}>
               "Passionate explorer 🌍 | Creative soul 🎨 | Fitness enthusiast 💪
               | Love meaningful conversations and a good laugh 😄 | Seeking
               genuine connections and shared adventures! 🚀"
             </Text>
+          </View>
+          <View
+            style={{
+              backgroundColor: colour.white,
+              width: width,
+              marginTop: 5,
+              borderRadius: 10,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                width: '95%',
+                alignSelf: 'center',
+                alignItems: 'center',
+              }}>
+              <Fontisto name="quote-a-right" color="grey" size={13} />
+              <Text
+                style={{fontSize: font * 15, color: 'grey', fontWeight: '700'}}>
+                About me
+              </Text>
+            </View>
+            <Text
+              style={{
+                width: '92%',
+                alignSelf: 'center',
+                color: colour.black,
+                fontSize: font * 15,
+              }}>
+              name: {myData ? myData.Name : 'Loading.....'} , Age:
+              {myData ? myData.Age : 'Loading.....'}
+            </Text>
+            <Text
+              style={{
+                width: '92%',
+                alignSelf: 'center',
+                color: colour.black,
+                fontSize: font * 15,
+              }}> 
+              Hobby: {myData?myData.hobby.map((list)=> `  ${list}`):'Loading....'}
+              </Text>
           </View>
         </ScrollView>
         <TouchableOpacity
