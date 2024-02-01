@@ -13,6 +13,7 @@ import colour from '../../styles/colour';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import firestore from '@react-native-firebase/firestore';
+import database from '@react-native-firebase/database'
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -64,12 +65,9 @@ const ShowProfileDetail = ({navigation}) => {
 
   const getDataBase = async () => {
     try {
-      const data = await firestore()
-        .collection('test')
-        .doc('rQaX0i5XpZFXYCCNdF9E')
-        .get();
-      setMyData(data.data());
-      console.log(data.data());
+      const data = await database().ref('users/1').once('value');
+      console.log(data);
+      setMyData(data.val())
     } catch (err) {
       console.log(err);
     }
@@ -86,11 +84,11 @@ const ShowProfileDetail = ({navigation}) => {
             alignItems: 'center',
             justifyContent:'space-between'
           }}>
-          <View style={{flexDirection: 'row', marginLeft: 15}}>
-            <Text style={{fontSize: font * 30, color: colour.black}}>
-            {myData ? myData.Name : 'Loading.....'},
+          <View  style={{flexDirection: 'row', marginLeft: 15,width:'80%'}}>
+            <Text numberOfLines={1} style={{fontSize: font * 30, color: colour.black}}>
+            {myData ? myData.name : 'Loading.....'},
             </Text>
-            <Text style={{fontSize: font * 30, color: colour.black}}>{myData ? myData.Age : 'Loading.....'}</Text>
+            <Text numberOfLines={1} style={{fontSize: font * 30, color: colour.black}}>{myData ? myData.age : 'Loading....'}</Text>
           </View>
           <View style={{}}></View>
           <TouchableOpacity
@@ -227,8 +225,8 @@ const ShowProfileDetail = ({navigation}) => {
                 color: colour.black,
                 fontSize: font * 15,
               }}>
-              name: {myData ? myData.Name : 'Loading.....'} , Age:
-              {myData ? myData.Age : 'Loading.....'}
+              name: {myData ? myData.name : 'Loading.....'} , Age:
+              {myData ? myData.age : 'Loading.....'}
             </Text>
             <Text
               style={{
@@ -237,7 +235,8 @@ const ShowProfileDetail = ({navigation}) => {
                 color: colour.black,
                 fontSize: font * 15,
               }}> 
-              Hobby: {myData?myData.hobby.map((list)=> `  ${list}`):'Loading....'}
+              Hobby: 
+              {/* {myData?myData.hobby.map((list)=> `  ${list}`):'Loading....'} */}
               </Text>
           </View>
         </ScrollView>
