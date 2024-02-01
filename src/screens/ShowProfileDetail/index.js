@@ -84,16 +84,17 @@ const ShowProfileDetail = ({navigation}) => {
             height: height * 0.08,
             backgroundColor: colour.white,
             alignItems: 'center',
+            justifyContent:'space-between'
           }}>
           <View style={{flexDirection: 'row', marginLeft: 15}}>
             <Text style={{fontSize: font * 30, color: colour.black}}>
-              Name,
+            {myData ? myData.Name : 'Loading.....'},
             </Text>
-            <Text style={{fontSize: font * 30, color: colour.black}}>Age</Text>
+            <Text style={{fontSize: font * 30, color: colour.black}}>{myData ? myData.Age : 'Loading.....'}</Text>
           </View>
-          <View style={{width: width * 0.44}}></View>
+          <View style={{}}></View>
           <TouchableOpacity
-            style={{height: height * 0.06, width: height * 0.06}}
+            style={{height: height * 0.06, width: height * 0.06,marginRight:10}}
             activeOpacity={0.5}
             onPress={() => navigation.navigate('Profile')}>
             <Image
