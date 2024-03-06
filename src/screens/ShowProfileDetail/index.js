@@ -13,7 +13,7 @@ import colour from '../../styles/colour';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import firestore from '@react-native-firebase/firestore';
-import database from '@react-native-firebase/database'
+import database from '@react-native-firebase/database';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -67,7 +67,7 @@ const ShowProfileDetail = ({navigation}) => {
     try {
       const data = await database().ref('users/1').once('value');
       console.log(data);
-      setMyData(data.val())
+      setMyData(data.val());
     } catch (err) {
       console.log(err);
     }
@@ -82,19 +82,29 @@ const ShowProfileDetail = ({navigation}) => {
             height: height * 0.08,
             backgroundColor: colour.white,
             alignItems: 'center',
-            justifyContent:'space-between'
+            justifyContent: 'space-between',
           }}>
-          <View  style={{flexDirection: 'row', marginLeft: 15,width:'80%'}}>
-            <Text numberOfLines={1} style={{fontSize: font * 30, color: colour.black}}>
-            {myData ? myData.name : 'Loading.....'},
+          <View style={{flexDirection: 'row', marginLeft: 15, width: '80%'}}>
+            <Text
+              numberOfLines={1}
+              style={{fontSize: font * 30, color: colour.black}}>
+              {myData ? myData.name : 'Loading.....'},
             </Text>
-            <Text numberOfLines={1} style={{fontSize: font * 30, color: colour.black}}>{myData ? myData.age : 'Loading....'}</Text>
+            <Text
+              numberOfLines={1}
+              style={{fontSize: font * 30, color: colour.black}}>
+              {myData ? myData.age : 'Loading....'}
+            </Text>
           </View>
           <View style={{}}></View>
           <TouchableOpacity
-            style={{height: height * 0.06, width: height * 0.06,marginRight:10}}
+            style={{
+              height: height * 0.06,
+              width: height * 0.06,
+              marginRight: 10,
+            }}
             activeOpacity={0.5}
-            onPress={() => navigation.navigate('Profile')}>
+            onPress={() => navigation.goBack()}>
             <Image
               style={{height: height * 0.06, width: height * 0.06}}
               source={require('../../pictures/dropdown1.png')}
@@ -132,6 +142,7 @@ const ShowProfileDetail = ({navigation}) => {
               {content.map((item, index) => {
                 return (
                   <View
+                    key={index}
                     style={[
                       styles.story,
                       {
@@ -234,10 +245,9 @@ const ShowProfileDetail = ({navigation}) => {
                 alignSelf: 'center',
                 color: colour.black,
                 fontSize: font * 15,
-              }}> 
-              Hobby: 
-              {/* {myData?myData.hobby.map((list)=> `  ${list}`):'Loading....'} */}
-              </Text>
+              }}>
+              Hobby:{myData ? myData.hobby : 'Loading.....'}
+            </Text>
           </View>
         </ScrollView>
         <TouchableOpacity
