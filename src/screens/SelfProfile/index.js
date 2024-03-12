@@ -13,9 +13,10 @@ import Carousel from '../../Components/Carousel';
 import styles from './style';
 import EditProfileScreen from '../EditProfileScreen';
 import ShowProfileDetail from '../ShowProfileDetail';
+import database from '@react-native-firebase/database';
 
 const { height, width } = Dimensions.get('window')
-const SelfProfile = ({navigation}) => {
+const SelfProfile = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.mainView}>
@@ -33,9 +34,9 @@ const SelfProfile = ({navigation}) => {
         </View>
         <View style={styles.screenContainer1}>
           <View style={styles.profileAnimation}>
-            <TouchableOpacity onPress={()=>navigation.navigate(ShowProfileDetail)} style={styles.profilePicSpace}>
+            <TouchableOpacity onPress={() => navigation.navigate(ShowProfileDetail)} style={styles.profilePicSpace}>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>navigation.navigate("EditProfile")} style={styles.profileEditIconContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate("EditProfile")} style={styles.profileEditIconContainer}>
               <MaterialCommunityIcons name="lead-pencil"
                 size={25}
                 color="grey" />
@@ -71,7 +72,7 @@ const SelfProfile = ({navigation}) => {
             </View>
 
           </View>
-          <Carousel/>
+          <Carousel />
         </View>
       </View>
     </SafeAreaView>

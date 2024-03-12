@@ -1,5 +1,11 @@
 {
-    "audioCues.diffLineDeleted": "off",
-    "audioCues.diffLineInserted": "off",
-    "audioCues.diffLineModified": "off"
+    "accessibility.signals.diffLineInserted": {
+        "sound": "off"
+    },
+    "accessibility.signals.diffLineDeleted": {
+        "sound": "off"
+    },
+    "accessibility.signals.diffLineModified": {
+        "sound": "off"
+    }
 }
