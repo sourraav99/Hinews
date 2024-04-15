@@ -59,6 +59,8 @@ const ShowProfileDetail = ({navigation}) => {
     },
   ]);
 
+
+
   useEffect(() => {
     getDataBase();
   }, []);
@@ -72,6 +74,7 @@ const ShowProfileDetail = ({navigation}) => {
       console.log(err);
     }
   };
+  
 
   return (
     <SafeAreaView style={{backgroundColor: colour.backGroudColour, flex: 1}}>

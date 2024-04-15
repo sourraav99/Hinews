@@ -11,7 +11,7 @@ export default function MainStack() {
     <bottomTab.Navigator>
       <Stack.Screen name="bottomTab" component={BottomTab} />
       <Stack.Screen name="editProfile" component={EditProfileScreen} />
-      <Stack.Screen name="showProfileDetail" component={ShowProfileDetail} />
+      <Stack.Screen  name="showProfileDetail" component={ShowProfileDetail}  />
     </bottomTab.Navigator>
   );
 }
