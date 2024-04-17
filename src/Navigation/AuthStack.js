@@ -15,10 +15,14 @@ import {
 } from '../screens';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import ShowProfileDetail from '../screens/ShowProfileDetail';
+import SplashScreen from 'react-native-splash-screen';
 
 const Stack = createNativeStackNavigator();
 
 export default function AuthStack() {
+  React.useEffect(()=>{
+    if(Platform.OS==="android")  SplashScreen.hide();
+    },[])
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} />
