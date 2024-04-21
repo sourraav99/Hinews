@@ -9,7 +9,6 @@ import {
 import React from 'react';
 import styles from './styles';
 import CustomeButton from '../../Components/CustomeButton';
-import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import { moderateScale, scale, verticalScale, moderateVerticalScale } from 'react-native-size-matters'
 import colour from '../../styles/colour';
 import NumberScreen from '../NumberInput';

@@ -2,35 +2,45 @@ import {
   View,
   Text,
   SafeAreaView,
-  TouchableOpacity,
-  TextInput,
+  ImageBackground,
+  Dimensions,
   Animated,
   Easing,
+  KeyboardAvoidingView,
+  TextInput,
   TouchableWithoutFeedback,
   Keyboard,
-  Image,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
   Platform,
+  Image,
   Alert,
-  ImageBackground,
+  
 } from 'react-native';
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState} from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import GenderScreen from '../GenderSelectScreen';
 import HeaderComp from '../../Components/HeaderComp';
-import { moderateScale, moderateVerticalScale, scale, verticalScale } from 'react-native-size-matters';
 import ImagePicker from 'react-native-image-crop-picker';
 import CustomeButton from '../../Components/CustomeButton';
-import styles from './styles';
-import { androidCameraPermission } from '../../../permission';
+// import styles from './styles';
+import {androidCameraPermission} from '../../../permission';
 
-const ProfileScreen = ({ navigation }) => {
-  const [image, setImage] = useState('https://www.istockphoto.com/photos/profile-image')
+const height = Dimensions.get('window').height;
+const width = Dimensions.get('window').width;
+const font = Dimensions.get('window').fontScale;
+
+const ProfileScreen = ({navigation}) => {
+  const [image, setImage] = useState(
+    'https://www.istockphoto.com/photos/profile-image',
+  );
   const transY = useRef(new Animated.Value(0));
   const tranY = useRef(new Animated.Value(0));
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [selectedDate, setSelectedDate] = useState('Choose birthday date');
-  const [text, setText] = useState('')
-  const [text1, setText1] = useState('')
+  const [text, setText] = useState('');
+  const [text1, setText1] = useState('');
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -82,10 +92,10 @@ const ProfileScreen = ({ navigation }) => {
       easing: Easing.ease,
     }).start();
   };
+
   const handelKeyboardOnDismiss = () => {
     Keyboard.dismiss();
   };
-
   const tranX = tranY.current.interpolate({
     inputRange: [-80, 0],
     outputRange: [-20, 0],
@@ -96,26 +106,21 @@ const ProfileScreen = ({ navigation }) => {
     outputRange: [-20, 0],
     extrapolate: 'clamp',
   });
-  const handleChangeText = (value) => {
-    setText(value)
-
-  }
-  const handleChangeText1 = (value) => {
-    setText1(value)
-  }
+  const handleChangeText = value => {
+    setText(value);
+  };
+  const handleChangeText1 = value => {
+    setText1(value);
+  };
 
   const onSelectingImage = async () => {
     const permissionStatus = await androidCameraPermission();
-    if (
-      permissionStatus || Platform.OS == 'ios') {
-      Alert.alert("Profile Picture",
-        " choose an option",
-        [
-          { text: 'Camera', onPress: onCamera },
-          { text: 'Gallery', onPress: onGallery },
-          { text: 'Cancel', onPress: () => { } }
-        ]
-      )
+    if (permissionStatus || Platform.OS == 'ios') {
+      Alert.alert('Profile Picture', ' choose an option', [
+        {text: 'Camera', onPress: onCamera},
+        {text: 'Gallery', onPress: onGallery},
+        {text: 'Cancel', onPress: () => {}},
+      ]);
     }
     // ImagePicker.openPicker({
     //   width: 300,
@@ -124,7 +129,7 @@ const ProfileScreen = ({ navigation }) => {
     // }).then(image => {
     //   console.log(image);
     // });
-  }
+  };
 
   const onCamera = () => {
     // Alert.alert("im camera")
@@ -142,107 +147,177 @@ const ProfileScreen = ({ navigation }) => {
     ImagePicker.openPicker({
       width: 300,
       height: 400,
-      cropping: true
+      cropping: true,
     }).then(image => {
       console.log(image);
-      setImage(image.path)
+      setImage(image.path);
     });
-  }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={handelKeyboardOnDismiss}>
-      <SafeAreaView style={styles.SafeAreaMain}>
-        <View style={styles.Viewmain}>
-
+      <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+        <ScrollView
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+          style={{flex: 1, backgroundColor: 'white'}}>
           <HeaderComp
-            headerText={'Skip'}
-            headerContainerStyle={{ justifyContent: 'flex-end', }}
-            // headerTextonPress={()=>navigation.navigate(GenderScreen)}
-            headerTextViewStyle={{ marginRight: moderateVerticalScale(20), }} />
-          <View style={styles.container1}>
-            <Text style={styles.profileDetailTextStyle}>
-              Profile details
-            </Text>
-            <TouchableOpacity onPress={onSelectingImage} style={styles.photo}>
-              <ImageBackground source={{uri:image}}
-                style={{ height: moderateScale(100), width: moderateScale(100), }} imageStyle={{ borderRadius: 15 }}></ImageBackground>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.container2}>
-            <View style={[styles.InputView,]}>
-              <Animated.View
-                style={[
-                  styles.FnameContainer,
-                  {
-                    transform: [
-                      {
-                        translateY: tranY.current,
-                      },
-                      { translateX: tranX },
-                    ],
-                  },
-                ]}>
-                <Text style={{ color: 'grey' }}>First name</Text>
-              </Animated.View>
-              <TextInput
-                style={styles.InputStyle}
-                onFocus={handlefocus}
-                onBlur={handleBlur}
-                value={text}
-                onChangeText={handleChangeText}
+            headerText={'skip'}
+            headerContainerStyle={{
+              justifyContent: 'flex-end',
+            }}
+            headerTextStyle={{fontSize: font * 20, marginRight: 20}}
+          />
+          <View
+            style={{
+              flex: 1,
+            }}>
+            <View style={{ height: height * 0.24}}>
+              <Text
+                style={{
+                  fontSize: font * 33,
+                  fontWeight: '500',
+                  color: 'black',
+                  left: 20,
+                  top: 10,
+                }}>
+                Profile details
+              </Text>
+              <TouchableOpacity
+                style={{
+                  height: 100,
+                  width: 100,
+                  borderWidth: 1,
+                  alignSelf: 'center',
+                  borderRadius: 20,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginTop: height * 0.04,
+                }}
+                onPress={onSelectingImage}>
+                <ImageBackground
+                  source={{uri: image}}
+                  style={{height: 100, width: 100}}
+                  imageStyle={{borderRadius: 15}}></ImageBackground>
+              </TouchableOpacity>
+            </View>
+            <View style={{height: height * 0.4, justifyContent:'space-evenly'}}>
+            <View style={{alignSelf: 'center'}}>
+                <Animated.View
+                  style={[
+                    styles.FnameContainer,
+                    {
+                      transform: [
+                        {
+                          translateY: tranY.current,
+                        },
+                        {translateX: tranX},
+                      ],
+                    },
+                  ]}>
+                  <Text style={{color: 'grey'}}>First name</Text>
+                </Animated.View>
+                <TextInput
+                  style={styles.InputStyle}
+                  onFocus={handlefocus}
+                  onBlur={handleBlur}
+                  value={text}
+                  onChangeText={handleChangeText}
+                />
+              </View>
+              <View style={{alignSelf: 'center'}}>
+                <Animated.View
+                  style={[
+                    styles.FnameContainer,
+                    {
+                      transform: [
+                        {
+                          translateY: transY.current,
+                        },
+                        {translateX: transX},
+                      ],
+                    },
+                  ]}>
+                  <Text style={{color: 'grey'}}>Last name</Text>
+                </Animated.View>
+                <TextInput
+                  style={styles.InputStyle}
+                  onFocus={handlefocus1}
+                  onBlur={handleBlur1}
+                  value={text1}
+                  onChangeText={handleChangeText1}
+                />
+              </View>
+              <TouchableOpacity
+                onPress={showDatePicker}
+                style={styles.CalendarView}>
+                <Image
+                  style={styles.CalendarImage}
+                  source={require('../../pictures/Calendar.png')}
+                />
+                <Text style={styles.CalendarText}> {selectedDate}</Text>
+              </TouchableOpacity>
+              <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
               />
             </View>
-            <View style={styles.InputView}>
-              <Animated.View
-                style={[
-                  styles.FnameContainer,
-                  {
-                    transform: [
-                      {
-                        translateY: transY.current,
-                      },
-                      { translateX: transX },
-                    ],
-                  },
-                ]}>
-                <Text style={{ color: 'grey' }}>Last name</Text>
-              </Animated.View>
-              <TextInput
-                style={styles.InputStyle}
-                onFocus={handlefocus1}
-                onBlur={handleBlur1}
-                value={text1}
-                onChangeText={handleChangeText1}
+            <View style={styles.container3}>
+              <CustomeButton
+                btnstyle={{bottom:height*0.050}}
+                btnText={'Confirm'}
+                btnTextStyle={{fontWeight: 'bold', fontSize: 25}}
+                onpress={() => navigation.navigate(GenderScreen)}
               />
             </View>
-            <TouchableOpacity
-              onPress={showDatePicker}
-              style={styles.CalendarView}>
-              <Image
-                style={styles.CalendarImage}
-                source={require('../../pictures/Calendar.png')}
-              />
-              <Text style={styles.CalendarText}> {selectedDate}</Text>
-            </TouchableOpacity>
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
-            />
           </View>
-          <View style={styles.container3}>
-            <CustomeButton
-              btnstyle={{ bottom: scale(50) }}
-              btnText={'Confirm'}
-              btnTextStyle={{ fontWeight: 'bold', fontSize: scale(25), }}
-              onpress={() => navigation.navigate(GenderScreen)} />
-          </View>
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 };
 
 export default ProfileScreen;
-
+const styles = StyleSheet.create({
+  FnameContainer: {
+    position: 'absolute',
+    padding: 15,
+  },
+  InputStyle: {
+    borderWidth: 1,
+    width: 300,
+    height: 50,
+    fontSize: 15,
+    padding: 15,
+    borderRadius: 15,
+    // marginBottom: 30,
+    color: 'black',
+    borderColor: '#E8E6EA',
+  },
+  CalendarView: {
+    flexDirection: 'row',
+    width:300,
+    height: 50,
+    borderRadius:15,
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FBA9AC',
+  },
+  CalendarImage: {
+    height: 30,
+    width: 27,
+    marginLeft:10,
+  },
+  CalendarText: {
+    marginLeft: 10,
+    color: '#E94957',
+    fontWeight: '500',
+  },
+  container3:{
+height:height*0.2,
+justifyContent:'flex-end',
+// marginTop:height*0.024,
+  }
+});

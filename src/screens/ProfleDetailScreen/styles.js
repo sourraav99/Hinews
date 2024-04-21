@@ -1,5 +1,10 @@
-const { StyleSheet, Dimensions } = require("react-native");
-import { moderateScale, scale, moderateVerticalScale, verticalScale } from 'react-native-size-matters';
+const {StyleSheet, Dimensions} = require('react-native');
+import {
+  moderateScale,
+  scale,
+  moderateVerticalScale,
+  verticalScale,
+} from 'react-native-size-matters';
 import colour from '../../styles/colour';
 
 const styles = StyleSheet.create({
@@ -8,7 +13,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   Viewmain: {
-    flex: 1,
+   flex:1,
     backgroundColor: 'white',
   },
   photo: {
@@ -39,7 +44,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     padding: moderateVerticalScale(15),
     // marginBottom: moderateVerticalScale(10),
-
   },
   CalendarView: {
     flexDirection: 'row',
@@ -49,7 +53,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: '#FBA9AC',
-
   },
   CalendarImage: {
     height: moderateScale(30),
@@ -62,16 +65,26 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   container1: {
-    flex: 0.8, justifyContent: 'space-evenly',
+    flex: 0.8,
+    justifyContent: 'space-evenly',
   },
   container2: {
-    flex: 1, justifyContent: 'space-evenly',
+    flex: 1,
+    justifyContent: 'space-evenly',
   },
   container3: {
-    flex: .5, justifyContent: 'flex-end',
+    flex: 0.5,
+    justifyContent: 'flex-end',
   },
-  profileDetailTextStyle:
-    { fontSize: scale(33), fontWeight: '500', color: 'black', marginLeft: moderateVerticalScale(20) }
-
+  profileDetailTextStyle: {
+    fontSize: scale(33),
+    fontWeight: '500',
+    color: 'black',
+    marginLeft: moderateVerticalScale(20),
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    paddingBottom: moderateVerticalScale(100),
+  },
 });
-export default styles
+export default styles;

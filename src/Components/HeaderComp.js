@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         height: height * 0.085,
         flexDirection: 'row',
         alignItems: 'center',
-
+// backgroundColor:'green'
     },
     backbtn: {
         borderWidth: 1,
