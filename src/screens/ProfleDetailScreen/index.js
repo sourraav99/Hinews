@@ -16,7 +16,6 @@ import {
   Platform,
   Image,
   Alert,
-  
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -26,6 +25,8 @@ import ImagePicker from 'react-native-image-crop-picker';
 import CustomeButton from '../../Components/CustomeButton';
 // import styles from './styles';
 import {androidCameraPermission} from '../../../permission';
+import colour from '../../styles/colour';
+import moment from 'moment';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -41,6 +42,7 @@ const ProfileScreen = ({navigation}) => {
   const [selectedDate, setSelectedDate] = useState('Choose birthday date');
   const [text, setText] = useState('');
   const [text1, setText1] = useState('');
+
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -49,15 +51,54 @@ const ProfileScreen = ({navigation}) => {
     setDatePickerVisibility(false);
   };
 
+  // const calculateAge = () => {
+  //   const today = new Date();
+  //   const birth = new Date(birthDate);
+  //   let age = today.getFullYear() - birth.getFullYear();
+  //   const monthDiff = today.getMonth() - birth.getMonth();
+  //   if (
+  //     monthDiff < 0 ||
+  //     (monthDiff === 0 && today.getDate() < birth.getDate())
+  //   ) {
+  //     age--;
+  //   }
+  //   return age;
+  // };
+
+  // const handleConfirm = date => {
+  //   console.warn('A date has been picked: ', date);
+  //   const dt = new Date(date);
+  //   const x = dt.toISOString().split('T');
+  //   const x1 = x[0].split('-');
+  //   // console.log(dt);
+  //   // console.log(x);
+  //   console.log(x1[2] + '/' + x1[1] + '/' + x1[0]);
+  //   setSelectedDate(x1[2] + '/' + x1[1] + '/' + x1[0]);
+  //   hideDatePicker();
+  // };
+
   const handleConfirm = date => {
-    console.warn('A date has been picked: ', date);
-    const dt = new Date(date);
-    const x = dt.toISOString().split('T');
-    const x1 = x[0].split('-');
-    console.log(x1[2] + '/' + x1[1] + '/' + x1[0]);
-    setSelectedDate(x1[2] + '/' + x1[1] + '/' + x1[0]);
+    // console.log(moment(date).isAfter(moment().subtract(18, 'years')),'---- date')
+
+    // return
+    const selectedBirthDate = new Date(date);
+    const eighteenYearsAgo = new Date();
+    eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
+
+    // Check if the selected date makes the user younger than 18
+    if (selectedBirthDate > eighteenYearsAgo) {
+      Alert.alert('Age Restriction', 'You must be 18 years or older.');
+      hideDatePicker(); // Hide the date picker
+      return;
+    }
+
+    const formattedDate = `${selectedBirthDate.getDate()}/${
+      selectedBirthDate.getMonth() + 1
+    }/${selectedBirthDate.getFullYear()}`;
+    setSelectedDate(formattedDate);
     hideDatePicker();
   };
+
   const handlefocus = () => {
     Animated.timing(tranY.current, {
       toValue: -38,
@@ -153,13 +194,23 @@ const ProfileScreen = ({navigation}) => {
       setImage(image.path);
     });
   };
-
+  const goToNextScreen = () => {
+    if (
+      text.trim() === '' ||
+      text1.trim() === '' ||
+      selectedDate === 'Choose birthday date'
+    ) {
+      Alert.alert('please enter both FirstName and LastName and DOB');
+    } else {
+      navigation.navigate(GenderScreen);
+    }
+  };
   return (
     <TouchableWithoutFeedback onPress={handelKeyboardOnDismiss}>
       <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
         <ScrollView
-        showsVerticalScrollIndicator={false}
-        bounces={false}
+          showsVerticalScrollIndicator={false}
+          bounces={false}
           style={{flex: 1, backgroundColor: 'white'}}>
           <HeaderComp
             headerText={'skip'}
@@ -172,7 +223,7 @@ const ProfileScreen = ({navigation}) => {
             style={{
               flex: 1,
             }}>
-            <View style={{ height: height * 0.24}}>
+            <View style={{height: height * 0.24}}>
               <Text
                 style={{
                   fontSize: font * 33,
@@ -201,8 +252,9 @@ const ProfileScreen = ({navigation}) => {
                   imageStyle={{borderRadius: 15}}></ImageBackground>
               </TouchableOpacity>
             </View>
-            <View style={{height: height * 0.4, justifyContent:'space-evenly'}}>
-            <View style={{alignSelf: 'center'}}>
+            <View
+              style={{height: height * 0.4, justifyContent: 'space-evenly'}}>
+              <View style={{alignSelf: 'center'}}>
                 <Animated.View
                   style={[
                     styles.FnameContainer,
@@ -262,14 +314,28 @@ const ProfileScreen = ({navigation}) => {
                 mode="date"
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
+                maximumDate={new Date()}
               />
             </View>
             <View style={styles.container3}>
               <CustomeButton
-                btnstyle={{bottom:height*0.050}}
+                btnstyle={{
+                  bottom: height * 0.05,
+                  backgroundColor:
+                    text.trim() === '' ||
+                    text1.trim() === '' ||
+                    selectedDate === 'Choose birthday date'
+                      ? colour.theme_Colour_Grey
+                      : colour.theme_Colour_red,
+                }}
                 btnText={'Confirm'}
                 btnTextStyle={{fontWeight: 'bold', fontSize: 25}}
-                onpress={() => navigation.navigate(GenderScreen)}
+                onpress={goToNextScreen}
+                disabled={
+                  text.trim() === '' ||
+                  text1.trim() === '' ||
+                  selectedDate === 'Choose birthday date'
+                }
               />
             </View>
           </View>
@@ -298,9 +364,9 @@ const styles = StyleSheet.create({
   },
   CalendarView: {
     flexDirection: 'row',
-    width:300,
+    width: 300,
     height: 50,
-    borderRadius:15,
+    borderRadius: 15,
     alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: '#FBA9AC',
@@ -308,16 +374,16 @@ const styles = StyleSheet.create({
   CalendarImage: {
     height: 30,
     width: 27,
-    marginLeft:10,
+    marginLeft: 10,
   },
   CalendarText: {
     marginLeft: 10,
     color: '#E94957',
     fontWeight: '500',
   },
-  container3:{
-height:height*0.2,
-justifyContent:'flex-end',
-// marginTop:height*0.024,
-  }
+  container3: {
+    height: height * 0.2,
+    justifyContent: 'flex-end',
+    // marginTop:height*0.024,
+  },
 });
