@@ -18,8 +18,10 @@ import {
 } from 'react-native-size-matters';
 import colour from '../../styles/colour';
 import CustomeButton from '../../Components/CustomeButton';
+import {useFocusEffect} from '@react-navigation/native';
 
 const OtpScreen = ({navigation}) => {
+  const timerRef = useRef(null);
   const et1 = useRef();
   const et2 = useRef();
   const et3 = useRef();
@@ -35,15 +37,56 @@ const OtpScreen = ({navigation}) => {
   const [isfocused3, setIsfocused3] = useState(false);
   const [isfocused4, setIsfocused4] = useState(false);
   const [counter, setCounter] = useState(59);
+
+  // const [{focused1,focused2,focused3}, setfocused] = useState({focused1:1,focused2:22,focused3:33})
+
+  // const _updateFocused =()=>{
+  //   setfocused(prevState => ({...prevState,focused1: 7777,focused3:8888}));
+  // }
+
+  // console.log({focused1,focused2,focused3})
+
+
   const [showResendButton, setShowResendButton] = useState(false);
   useEffect(() => {
-    const timer =
-      counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
-    if (counter === 0) {
-      setShowResendButton(true);
-    }
-    return () => clearInterval(timer);
-  }, [counter]);
+    console.log('working');
+    timerRef.current = setInterval(() => {
+      setCounter(prevCounter => {
+        if (prevCounter > 0) {
+          return prevCounter - 1;
+        } else {
+          clearInterval(timerRef.current); // Clear the timer when counter reaches 0
+          setShowResendButton(true); // Show the "Resend OTP" button
+          return 0;
+        }
+      });
+    }, 1000);
+
+    return () => clearInterval(timerRef.current); // Clean up the timer on component unmount
+  }, []);
+
+  const handleResendOTP = () => {
+    setCounter(59); // Reset the counter
+    setShowResendButton(false); // Hide the "Resend OTP" button
+    clearInterval(timerRef.current); // Clear the previous timer (if any)
+    timerRef.current = setInterval(() => {
+      // Restart the timer
+      setCounter(prevCounter => {
+        if (prevCounter > 0) {
+          return prevCounter - 1;
+        } else {
+          clearInterval(timerRef.current); // Clear the timer when counter reaches 0
+          setShowResendButton(true); // Show the "Resend OTP" button
+          return 0;
+        }
+      });
+    }, 1000);
+  };
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('new work');
+    }, []),
+  );
   return (
     <SafeAreaView style={styles.SafeAreaMain}>
       <View style={styles.Viewmain}>
@@ -90,7 +133,7 @@ const OtpScreen = ({navigation}) => {
             onBlur={() => setIsfocused2(false)}
             placeholder="0"
             placeholderTextColor={
-              isfocused2 ? colour.theme_Colour_red : colour.theme_Colour_Grey
+              isfocused2 ? '#E6AEAE' : colour.theme_Colour_Grey
             }
             ref={et2}
             value={f2}
@@ -120,7 +163,7 @@ const OtpScreen = ({navigation}) => {
             onBlur={() => setIsfocused3(false)}
             placeholder="0"
             placeholderTextColor={
-              isfocused3 ? colour.theme_Colour_red : colour.theme_Colour_Grey
+              isfocused3 ? '#E6AEAE' : colour.theme_Colour_Grey
             }
             ref={et3}
             value={f3}
@@ -159,7 +202,7 @@ const OtpScreen = ({navigation}) => {
             onBlur={() => setIsfocused4(false)}
             placeholder="0"
             placeholderTextColor={
-              isfocused4 ? colour.theme_Colour_red : colour.theme_Colour_Grey
+              isfocused4 ? '#E6AEAE' : colour.theme_Colour_Grey
             }
             ref={et4}
             value={f4}
@@ -196,14 +239,16 @@ const OtpScreen = ({navigation}) => {
                 : 'grey',
           }}
           btnText={'Verify'}
-          onpress={() => navigation.replace('ProfileScreen')}
+          onpress={() => navigation.navigate('ProfileScreen')}
           disabled={
             f1 !== '' && f2 !== '' && f3 !== '' && f4 !== '' ? false : true
           }
           btnTextStyle={{fontWeight: 'bold', fontSize: scale(20)}}
         />
         {showResendButton && (
-          <TouchableOpacity style={styles.resendOtpView}>
+          <TouchableOpacity
+            onPress={handleResendOTP}
+            style={styles.resendOtpView}>
             <Text style={styles.resendOtpText}>Resend OTP</Text>
           </TouchableOpacity>
         )}
