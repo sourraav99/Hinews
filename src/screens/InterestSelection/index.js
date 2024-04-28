@@ -6,19 +6,26 @@ import {
   Image,
   FlatList,
   Dimensions,
+  ToastAndroid,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import EnableContact from '../AccessContacts';
 import HeaderComp from '../../Components/HeaderComp';
-import { moderateScale, moderateVerticalScale, scale, verticalScale } from 'react-native-size-matters';
+import {
+  moderateVerticalScale,
+  scale,
+} from 'react-native-size-matters';
 import CustomeButton from '../../Components/CustomeButton';
 import styles from './styles';
-const {height,width}=Dimensions.get('window')
+const {height, width} = Dimensions.get('window');
 
-const RenderItem = ({ item, index }) => {
-  const [select, setselect] = useState(-1);
+const RenderItem = ({item, index, selectedInterests, setselectedInterests}) => {
   const HandleOnPress = item => {
-    item?.id === select ? setselect(-1) : setselect(item?.id);
+    if (selectedInterests.find(a => a === item?.id)) {
+      setselectedInterests(selectedInterests.filter(a=>a !== item?.id))
+    } else {
+      setselectedInterests([...selectedInterests, item?.id]);
+    }
   };
   return (
     <TouchableOpacity
@@ -27,19 +34,19 @@ const RenderItem = ({ item, index }) => {
       }}
       style={[
         styles.item,
-        { backgroundColor: item?.id === select ? '#E94057' : 'white' },
+        {backgroundColor: item?.id === selectedInterests.find(a => a === item?.id) ? '#E94057' : 'white'},
       ]}>
       <Image
         source={item}
         style={[
           styles.ImageIcon,
-          { marginEnd: 5, tintColor: item?.id === select ? 'white' : 'black' },
+          {marginEnd: 5, tintColor: item?.id === selectedInterests.find(a => a === item?.id) ? 'white' : 'black'},
         ]}
       />
       <Text
         style={[
           styles.title,
-          { color: item?.id === select ? 'white' : 'black' },
+          {color: item?.id === selectedInterests.find(a => a === item?.id) ? 'white' : 'black'},
         ]}>
         {item.title}
       </Text>
@@ -47,7 +54,8 @@ const RenderItem = ({ item, index }) => {
   );
 };
 
-const Test = ({ navigation }) => {
+const Test = ({navigation}) => {
+  const [selectedInterests, setselectedInterests] = useState([]);
   const Data = [
     {
       id: 1,
@@ -141,13 +149,15 @@ const Test = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.SafeAreaMain}>
       <View style={styles.Viewmain}>
-      <View style={styles.BackSkipView}>
-          <HeaderComp
-            img={require('../../pictures/right.png')} />
+        <View style={styles.BackSkipView}>
+          <HeaderComp img={require('../../pictures/right.png')} />
           <HeaderComp
             headerText={'Skip'}
-            headerTextStyle={{fontSize: scale(18), marginRight: moderateVerticalScale(20),}}
-             />
+            headerTextStyle={{
+              fontSize: scale(18),
+              marginRight: moderateVerticalScale(20),
+            }}
+          />
         </View>
         <View style={styles.TextView}>
           <Text style={styles.text1}>Your interests.</Text>
@@ -156,7 +166,8 @@ const Test = ({ navigation }) => {
             are passionate about
           </Text>
         </View>
-        <View style={{ alignSelf: 'center',width:'100%',alignItems:'center', }}>
+        <View
+          style={{alignSelf: 'center', width: '100%', alignItems: 'center'}}>
           <FlatList
             data={[...Data]}
             keyExtractor={item => item.id}
@@ -164,22 +175,34 @@ const Test = ({ navigation }) => {
             horizontal={false}
             bounces={false}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-              <RenderItem item={item} index={index} />
+            renderItem={({item, index}) => (
+              <RenderItem
+                item={item}
+                index={index}
+                selectedInterests={selectedInterests}
+                setselectedInterests={setselectedInterests}
+              />
             )}
           />
         </View>
-        <View style={{ justifyContent: 'flex-end',flex:0.7 }}>
+        <View style={{justifyContent: 'flex-end', flex: 0.7}}>
           <CustomeButton
-          btnText={'Continue'}
-          btnTextStyle={{fontSize:scale(28),fontWeight: 'bold',}}
-          onpress={()=>navigation.navigate(EnableContact)}
-          btnstyle={{bottom:moderateVerticalScale(50)}}/>
+            btnText={'Continue'}
+            btnTextStyle={{fontSize: scale(28), fontWeight: 'bold'}}
+            onpress={() => {
+              if(selectedInterests.length >= 2){
+                navigation.navigate(EnableContact)
+              }else{
+                ToastAndroid.show('please select two items', ToastAndroid.SHORT)
+              }
+              
+            }}
+            btnstyle={{bottom: moderateVerticalScale(50)}}
+          />
         </View>
       </View>
     </SafeAreaView>
   );
 };
-
 
 export default Test;
